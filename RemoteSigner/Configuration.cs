@@ -20,6 +20,7 @@ namespace RemoteSigner {
         public static string MasterGPGKeyPasswordPath { get; private set; }
         public static bool MasterGPGKeyBase64Encoded { get; private set; }
         public static bool KeysBase64Encoded { get; private set; }
+        public static int DefaultExpirationSeconds { get; private set; }
 
         static Configuration() {
             SyslogServer = Environment.GetEnvironmentVariable("SYSLOG_IP") ?? "127.0.0.1";
@@ -49,6 +50,9 @@ namespace RemoteSigner {
             MasterGPGKeyPasswordPath = MasterGPGKeyPasswordPath == null || MasterGPGKeyPasswordPath.Trim().Length > 0 ? MasterGPGKeyPasswordPath : null;
             MasterGPGKeyBase64Encoded = Environment.GetEnvironmentVariable("MASTER_GPG_KEY_BASE64_ENCODED") == "true";
             KeysBase64Encoded = Environment.GetEnvironmentVariable("KEYS_BASE64_ENCODED") == "true";
+
+            var des = Environment.GetEnvironmentVariable("DEFAULT_TOKEN_EXPIRATION") ?? "3600";
+            DefaultExpirationSeconds = int.Parse(des);
 
 #pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
             try { Directory.CreateDirectory(PrivateKeyFolder); } catch (Exception) { }

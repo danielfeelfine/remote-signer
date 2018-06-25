@@ -20,6 +20,14 @@ namespace RemoteSigner {
         static readonly Regex PGPSig = new Regex("-----BEGIN PGP SIGNATURE-----(.*)-----END PGP SIGNATURE-----", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         static readonly HttpClient client = new HttpClient();
 
+        public static DateTime UnixEpochToDateTime(ulong epochTime) {
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(epochTime).ToLocalTime();
+        }
+
+        public static ulong DateTimeToUnixEpoch(DateTime dtime) {
+            return (ulong)(dtime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+        }
+
         public static async Task<string> Post(string url, string content) {
             var httpContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url, httpContent);

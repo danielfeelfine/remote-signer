@@ -129,6 +129,8 @@
     <Compile Include="HttpData\Endpoints\JsonFieldCipher.cs" />
     <Compile Include="Models\ArgumentModels\FieldCipherInput.cs" />
     <Compile Include="Models\ArgumentModels\FieldDecipherInput.cs" />
+    <Compile Include="Models\LoginToken.cs" />
+    <Compile Include="TokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

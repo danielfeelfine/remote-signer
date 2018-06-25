@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RemoteSigner.Models;
 using RemoteSigner.Models.Attributes;
 
 namespace RemoteSigner.HttpData.Endpoints {
@@ -17,6 +18,19 @@ namespace RemoteSigner.HttpData.Endpoints {
         [GET("/__triggerKeyUnlock")]
         public string TriggerKeyUnlock() {
             sm.UnlockLocalKeys().Wait();
+            return "OK";
+        }
+
+        [GET("/__getTokens")]
+        public List<LoginToken> GetTokens() {
+            
+        }
+
+        [POST("/__postTokens")]
+        public string PostEncryptedPasswords(Dictionary<string, string> encryptedPasswords) {
+            foreach (var key in encryptedPasswords.Keys) {
+                sm.PutEncryptedKeyPassword(key, encryptedPasswords[key]);
+            }
             return "OK";
         }
 
